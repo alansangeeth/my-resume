@@ -28,7 +28,8 @@ async function includeHTML() {
 }
 
 function initializeDarkMode() {
-    const isDarkMode = localStorage.getItem("alan-resume-darkMode") === "true";
+    // default is dark
+    const isDarkMode = !localStorage.hasOwnProperty("alan-resume-darkMode") || localStorage.getItem("alan-resume-darkMode") === "true";
     toggleDarkMode(isDarkMode);
 }
 function toggleDarkMode(active) {
