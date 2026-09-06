@@ -8,6 +8,16 @@
     --border-color: #ddd;
 }
 
+body[data-theme="dark"] {
+    --primary-color: #2DD4BF;
+    --secondary-color: #9CA3AF;
+    --accent-color: #0056b3;
+    --bg-color: #222;
+    --text-color: #fff;
+    --white: #111;
+    --border-color: #333;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -27,10 +37,10 @@ body {
 }
 
 header {
+    position: relative;
     text-align: center;
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: 20px;
-    margin-bottom: 30px;
 }
 
 header h1 {
@@ -39,20 +49,22 @@ header h1 {
     color: var(--primary-color);
 }
 
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
 .contact-info {
-    margin-top: 10px;
     font-size: 1.1em;
     color: var(--secondary-color);
 }
 
 .links {
-    margin-top: 15px;
     font-weight: bold;
 }
 
 .print-only-links {
     display: none;
-    margin-top: 15px;
     font-weight: bold;
 }
 
@@ -66,25 +78,24 @@ header h1 {
     text-decoration: underline;
 }
 
-section {
-    margin-bottom: 30px;
-}
-
 h2 {
     border-bottom: 1px solid var(--border-color);
-    color: var(--primary-color);
     display: flex;
     align-items: center;
     cursor: pointer;
     transition: color 0.3s;
 }
 
-h2:hover {
+h2, h3 {    
+    color: var(--primary-color);
+}
+
+h2:hover, h3:hover {
     color: var(--accent-color);
 }
 
 h2::after {
-    content: ' ▼';
+    content: '▼';
     font-size: 0.6em;
     margin-left: 10px;
     transition: transform 0.3s;
@@ -96,10 +107,6 @@ section.collapsed h2::after {
 
 section.collapsed .content {
     display: none;
-}
-
-.experience-item, .education-item {
-    margin-bottom: 20px;
 }
 
 .item-header {
@@ -130,15 +137,13 @@ section.collapsed .content {
 .item-sub {
     color: var(--secondary-color);
     font-style: italic;
-    margin-bottom: 5px;
 }
 
 ul {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     padding-left: 20px;
-}
-
-li {
-    margin-bottom: 5px;
 }
 
 .skills-grid {
@@ -152,6 +157,46 @@ li {
     margin-bottom: 5px;
     color: var(--primary-color);
 }
+/* Sub page CSS Start  */
+.sub-page .card {
+    background: var(--bg-color);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sub-page h1 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.sub-page .back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sub-page .back-link:hover {
+    text-decoration: underline;
+}
+
+.sub-page .meta {
+    font-style: italic;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.sub-page ul {
+    padding-left: 20px;
+}
+
+.sub-page li {
+    margin-bottom: 10px;
+}
+/* Sub page CSS End */
 
 @media print {
     body {
@@ -174,6 +219,9 @@ li {
     .print-only-links {
         display: block;
     }
+    .new-page-on-print {
+        page-break-before: always;
+    }
 }
 
 @media (max-width: 600px) {
@@ -184,4 +232,10 @@ li {
     .item-header {
         flex-direction: column;
     }
+}
+
+#theme-switcher {
+    position: fixed;
+    top: 10px;
+    right: 10px;
 }

@@ -1,0 +1,129 @@
+:root {
+    --toggle-width: 70px;
+    --toggle-height: 27px;
+    --thumb-size: 21px;
+
+    --track-bg: #080f1c;
+    --track-border: #a7a7a7;
+
+    --thumb-color: #464071;
+    --thumb-active-color: #ffd27f;
+
+    --icon-color: #edf4ff;
+
+    --transition: 220ms ease;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #111;
+    transition: background 220ms ease;
+}
+
+/* Toggle */
+.dark-mode-toggle {
+    position: relative;
+
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+
+    padding: 0;
+    border: 2px solid var(--track-border);
+    border-radius: 999px;
+
+    background: var(--track-bg);
+
+    cursor: pointer;
+    overflow: hidden;
+
+    transition:
+        background var(--transition),
+        border-color var(--transition);
+
+    outline: none;
+}
+
+/* Sliding thumb */
+.thumb {
+    position: absolute;
+
+    top: 1px;
+    left: 1px;
+
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+
+    border-radius: 50%;
+
+    background: var(--thumb-color);
+
+    transition:
+        transform var(--transition),
+        background var(--transition);
+
+    z-index: 2;
+}
+
+/* Move thumb to the right */
+.dark-mode-toggle.active .thumb {
+    transform: translateX(calc(var(--toggle-width) - var(--thumb-size) - 6px));
+
+    background: var(--thumb-active-color);
+}
+
+/* Icons */
+.icon {
+    position: absolute;
+
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 32px;
+    height: 32px;
+
+    fill: none;
+    stroke: var(--icon-color);
+    stroke-width: 2.5;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+/* Moon on right */
+.moon-icon {
+    right: 12px;
+}
+
+/* Sun on left/right depending on state */
+.sun-icon {
+    left: 12px;
+    display: none;
+}
+
+.dark-mode-toggle.active .moon-icon {
+    display: none;
+}
+
+.dark-mode-toggle.active .sun-icon {
+    display: block;
+}
+
+/* Focus */
+.dark-mode-toggle:focus-visible {
+    outline: 2px solid #8bd3ff;
+    outline-offset: 4px;
+}
