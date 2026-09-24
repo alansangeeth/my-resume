@@ -1,27 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Experience - Frontline Education</title>
+    <script>
+        (function () {
+            var root = document.documentElement;
+            root.classList.add("js");
+            try {
+                root.setAttribute("data-theme", localStorage.getItem("alan-resume-darkMode") === "false" ? "light" : "dark");
+            } catch (e) { }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="main.js" defer></script>
 </head>
 <body>
+    <div class="scroll-progress no-print" aria-hidden="true"></div>
+    <div class="bg-decor no-print" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
+        <div class="grid-overlay"></div>
+    </div>
     <div class="container sub-page">
-        <header>
-            <h1>Alan Sangeeth</h1>
-            <div class="contact-info">
+        <header class="hero">
+            <h1 class="reveal">Alan Sangeeth</h1>
+            <div class="contact-info reveal">
                 Principal Software Engineer | CES (Client: Frontline Education)
             </div>
-            <div class="links no-print">
-                <a href="index.html">Back to Résumé</a>
+            <div class="links reveal no-print">
+                <a href="index.html" class="pill"><svg class="i" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>Back to Résumé</a>
             </div>
             <div id="theme-switcher" class="no-print">
             </div>
         </header>
 
-        <section id="experience-detail">
+        <section id="experience-detail" class="card reveal">
             <h1>Principal Software Engineer</h1>
             <div class="meta">CES - Client: Frontline Education (2025 - Present)</div>
 

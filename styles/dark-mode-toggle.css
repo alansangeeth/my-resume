@@ -1,129 +1,206 @@
-:root {
-    --toggle-width: 70px;
-    --toggle-height: 27px;
-    --thumb-size: 21px;
-
-    --track-bg: #080f1c;
-    --track-border: #a7a7a7;
-
-    --thumb-color: #464071;
-    --thumb-active-color: #ffd27f;
-
-    --icon-color: #edf4ff;
-
-    --transition: 220ms ease;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    min-height: 100vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: #111;
-    transition: background 220ms ease;
-}
-
-/* Toggle */
 .dark-mode-toggle {
+    --dm-width: 68px;
+    --dm-height: 34px;
+    --dm-pad: 3px;
+    --dm-thumb: calc(var(--dm-height) - var(--dm-pad) * 2 - 2px);
+    --dm-ease: cubic-bezier(0.34, 1.4, 0.64, 1);
+
     position: relative;
-
-    width: var(--toggle-width);
-    height: var(--toggle-height);
-
+    display: block;
+    width: var(--dm-width);
+    height: var(--dm-height);
     padding: 0;
-    border: 2px solid var(--track-border);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: 999px;
-
-    background: var(--track-bg);
-
-    cursor: pointer;
     overflow: hidden;
-
-    transition:
-        background var(--transition),
-        border-color var(--transition);
-
+    cursor: pointer;
+    isolation: isolate;
     outline: none;
+
+    /* Day sky */
+    background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 100%);
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.18),
+        0 6px 18px -6px rgba(56, 189, 248, 0.6);
+
+    transition: background 0.5s ease, box-shadow 0.4s ease, border-color 0.4s ease, transform 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* Sliding thumb */
+/* Night sky */
+.dark-mode-toggle.active {
+    background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
+    border-color: rgba(129, 140, 248, 0.35);
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.5),
+        0 6px 18px -6px rgba(99, 102, 241, 0.55);
+}
+
+.dark-mode-toggle:hover {
+    transform: scale(1.05);
+}
+
+.dark-mode-toggle:active .thumb {
+    width: calc(var(--dm-thumb) + 6px);
+}
+
+.dark-mode-toggle:focus-visible {
+    outline: 2px solid #5eead4;
+    outline-offset: 3px;
+}
+
+/* Thumb (sun / moon) */
 .thumb {
     position: absolute;
-
-    top: 1px;
-    left: 1px;
-
-    width: var(--thumb-size);
-    height: var(--thumb-size);
-
-    border-radius: 50%;
-
-    background: var(--thumb-color);
-
-    transition:
-        transform var(--transition),
-        background var(--transition);
-
+    top: var(--dm-pad);
+    left: var(--dm-pad);
     z-index: 2;
+    display: grid;
+    place-items: center;
+    width: var(--dm-thumb);
+    height: var(--dm-thumb);
+    border-radius: 999px;
+    background: radial-gradient(circle at 35% 30%, #fff7d6, #fcd34d 60%, #f59e0b);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.25),
+        0 0 14px rgba(252, 211, 77, 0.8);
+    transition: transform 0.55s var(--dm-ease), width 0.2s ease, background 0.5s ease, box-shadow 0.5s ease;
 }
 
-/* Move thumb to the right */
 .dark-mode-toggle.active .thumb {
-    transform: translateX(calc(var(--toggle-width) - var(--thumb-size) - 6px));
-
-    background: var(--thumb-active-color);
+    transform: translateX(calc(var(--dm-width) - var(--dm-thumb) - var(--dm-pad) * 2 - 2px));
+    background: radial-gradient(circle at 35% 30%, #ffffff, #e2e8f0 60%, #cbd5e1);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.4),
+        0 0 14px rgba(199, 210, 254, 0.55);
 }
 
-/* Icons */
+/* Keep the pressed thumb anchored to the right edge in dark mode */
+.dark-mode-toggle.active:active .thumb {
+    transform: translateX(calc(var(--dm-width) - var(--dm-thumb) - 6px - var(--dm-pad) * 2 - 2px));
+}
+
 .icon {
     position: absolute;
-
-    top: 50%;
-    transform: translateY(-50%);
-
-    width: 32px;
-    height: 32px;
-
+    width: 18px;
+    height: 18px;
     fill: none;
-    stroke: var(--icon-color);
-    stroke-width: 2.5;
-
+    stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
-
-    z-index: 1;
-
     pointer-events: none;
+    transition: transform 0.55s var(--dm-ease), opacity 0.3s ease;
 }
 
-/* Moon on right */
-.moon-icon {
-    right: 12px;
-}
-
-/* Sun on left/right depending on state */
 .sun-icon {
-    left: 12px;
-    display: none;
+    stroke: #b45309;
+    fill: none;
 }
 
-.dark-mode-toggle.active .moon-icon {
-    display: none;
+.sun-icon circle {
+    fill: #fde68a;
+}
+
+.moon-icon {
+    stroke: #475569;
+    fill: #f1f5f9;
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.4);
 }
 
 .dark-mode-toggle.active .sun-icon {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.4);
+}
+
+.dark-mode-toggle.active .moon-icon {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+/* Sky decorations */
+.scene {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.55s var(--dm-ease);
+}
+
+.scene i {
+    position: absolute;
     display: block;
 }
 
-/* Focus */
-.dark-mode-toggle:focus-visible {
-    outline: 2px solid #8bd3ff;
-    outline-offset: 4px;
+/* Stars */
+.stars {
+    opacity: 0;
+    transform: translateY(6px);
+}
+
+.dark-mode-toggle.active .stars {
+    opacity: 1;
+    transform: none;
+}
+
+.stars i {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 4px #fff;
+    animation: dm-twinkle 2.4s ease-in-out infinite;
+}
+
+.stars i:nth-child(1) { top: 8px;  left: 10px; }
+.stars i:nth-child(2) { top: 18px; left: 20px; width: 2px; height: 2px; animation-delay: -0.8s; }
+.stars i:nth-child(3) { top: 7px;  left: 28px; width: 2px; height: 2px; animation-delay: -1.6s; }
+.stars i:nth-child(4) { top: 22px; left: 8px;  width: 2px; height: 2px; animation-delay: -1.2s; }
+
+@keyframes dm-twinkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.6); }
+}
+
+/* Clouds */
+.clouds {
+    opacity: 1;
+}
+
+.dark-mode-toggle.active .clouds {
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+.clouds i {
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.clouds i::before {
+    content: '';
+    position: absolute;
+    left: 25%;
+    bottom: 3px;
+    width: 55%;
+    height: 9px;
+    border-radius: 999px;
+    background: inherit;
+}
+
+.clouds i:nth-child(1) { width: 20px; right: 9px; top: 9px; animation: dm-drift 5s ease-in-out infinite alternate; }
+.clouds i:nth-child(2) { width: 15px; right: 20px; top: 21px; opacity: 0.8; animation: dm-drift 6s ease-in-out infinite alternate-reverse; }
+
+@keyframes dm-drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dark-mode-toggle,
+    .dark-mode-toggle * {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
 }
