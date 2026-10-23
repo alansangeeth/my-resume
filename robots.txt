@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alansangeeth.synology.me/resume/sitemap.xml
